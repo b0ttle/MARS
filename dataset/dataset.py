@@ -304,11 +304,11 @@ class Kinetics_test(Dataset):
         self.train_val_test = train
               
         # joing labnames with underscores
-        self.lab_names = sorted([f for f in os.listdir(os.path.join(self.opt.frame_dir, "train"))])        
+        self.lab_names = sorted([f for f in os.listdir(os.path.join(self.opt.frame_dir, "train_frames"))])        
        
         # Number of classes
         self.N = len(self.lab_names)
-        assert self.N == 400
+#        assert self.N == 400
         
         # indexes for validation set
         if train==1:
