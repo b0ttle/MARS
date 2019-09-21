@@ -252,7 +252,7 @@ class UCF101_test(Dataset):
         # indexes for training/test set
         split_lab_filenames = sorted([file for file in os.listdir(opt.annotation_path) if file.strip('.txt')[-1] ==str(split)])
 
-        if self.train_valtest==1:
+        if self.train_val_test==1:
             split_lab_filenames = [f for f in split_lab_filenames if 'train' in f]
         else:
             split_lab_filenames = [f for f in split_lab_filenames if 'test' in f]
@@ -262,9 +262,9 @@ class UCF101_test(Dataset):
         f = open(os.path.join(self.opt.annotation_path, split_lab_filenames[0]), 'r')
         for line in f:
             class_id = self.class_idx.get(line.split('/')[0]) - 1
-            if os.path.exists(os.path.join(self.opt.frame_dir, line.strip('\n')[:-4])) == True:
-                self.data.append((os.path.join(self.opt.frame_dir, line.strip('\n')[:-4]), class_id))
-        
+            line = line.split( )[0]
+            if os.path.exists(os.path.join(self.opt.frame_dir, line[:-4])) == True:
+                self.data.append((os.path.join(self.opt.frame_dir, line[:-4]), class_id))
         f.close()
     def __len__(self):
         '''
@@ -275,8 +275,8 @@ class UCF101_test(Dataset):
     def __getitem__(self, idx):
         video = self.data[idx]
         label_id = video[1]
-        frame_path = os.path.join(self.opt.frame_dir, self.idx_class.get(label_id + 1), video[0])
-
+        frame_path = os.path.join(video[0])
+    
         if self.opt.only_RGB:
             Total_frames = len(glob.glob(glob.escape(frame_path) +  '/0*.jpg'))
         else:
