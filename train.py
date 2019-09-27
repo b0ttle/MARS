@@ -48,7 +48,7 @@ if __name__=="__main__":
     print("Loading model... ", opt.model, opt.model_depth)
     model, parameters = generate_model(opt)
     
-    criterion = nn.CrossEntropyLoss().cuda()
+    criterion = nn.CrossEntropyLoss().cuda(2)
 
     if opt.resume_path1:
         print('loading checkpoint {}'.format(opt.resume_path1))
@@ -119,7 +119,7 @@ if __name__=="__main__":
         for i, (inputs, targets) in enumerate(train_dataloader):
             data_time.update(time.time() - end_time)
         
-            targets = targets.cuda(non_blocking=True)
+            targets = targets.cuda(2,non_blocking=True)
             inputs = Variable(inputs)
             targets = Variable(targets)
             outputs = model(inputs)
@@ -188,7 +188,7 @@ if __name__=="__main__":
                 
                 # pdb.set_trace()
                 data_time.update(time.time() - end_time)
-                targets = targets.cuda(non_blocking=True)
+                targets = targets.cuda(2, non_blocking=True)
                 inputs = Variable(inputs)
                 targets = Variable(targets)
                 outputs = model(inputs)
